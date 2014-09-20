@@ -30,16 +30,20 @@
 			  <h1>BlueTurtle<small> mensajeria</small></h1>
 			</div>
 				<form action="EnvioRapido.php" method="POST" role="form">
-					<legend>Inicia Sesión</legend>
+					<legend>Registro</legend>
 					<div class="form-group">
 						<label for="user">Usuario</label>
 						<input type="text"  name="user" id="user" class="form-control" required="required" title="Escribe tu nombre de usuario"><br>
 						<label for="pass">Contraseña</label>
-						<input type="password" name="pass" id="pass" class="form-control" required="required" title="Escribe tu contraseña">
+						<input type="password" name="pass" id="pass" class="form-control" required="required" title="Escribe tu contraseña"><br>
+						<label for="cpass">Confirmar</label>
+						<input type="password" name="cpass" id="cpass" class="form-control" required="required" title="Escribe tu contraseña"><br>
+						<label for="email">eMail</label>
+						<input type="email" name="email" id="email" class="form-control" required="required" title="Ingresa tu eMail">
 					</div>
 					<button type="submit" class="btn btn-primary pull-right">Entrar</button>
 				</form>
-				<a href="registro.php">Registrarse</a>
+				<a href="index.php">Regresar</a>
 			</div>
 		</div>		
 	</body>
