@@ -1,3 +1,25 @@
+<?php 
+	$hostname = '{mx1.hostinger.mx:143/imap}INBOX';
+	$username = 'usuariouno@blueturtle.zz.mu';
+	$password = '123456';
+	$inbox = imap_open($hostname,$username,$password) or die('Cannot connect: ' . imap_last_error());
+	$emails = imap_search($inbox,'SUBJECT "BlueTurtle"');
+	if($emails) {
+	    $output = '';
+	    rsort($emails);
+	    $i=0;
+	    foreach($emails as $email_number) {
+	        $overview = imap_fetch_overview($inbox,$email_number,0);
+	        $message = imap_fetchbody($inbox,$email_number,1);
+	        $output.= 'Subject: '.$overview[0]->subject.'<br> ';
+	        $output.= 'Fecha: '.$overview[0]->date.'<br>';
+	        $output.= 'Mensaje: '.$i.$message.'<br>';
+	        $i++;
+	    }
+	    echo '<ul class="emails">'.$output.'</ul>';
+	} 
+	imap_close($inbox);
+?>
 <!DOCTYPE html>
 <html lang="es-MX">
 	<head>
@@ -54,29 +76,32 @@
 					</ul>
 				</div><!-- /.navbar-collapse -->
 			</nav>
-			<div class="col-xs-12 col-sm-6 col-sm-offset-3 col-md-6 col-lg-6">
-				<form action="php/enviar.php" method="POST" role="form">
-					<legend>Envio Rápido</legend>
-					<div class="form-group">
-						<label for="tipo">Seguridad</label>
-						<select name="tipo" id="envRapSeg" class="form-control" required="required" onchange="envRapOp(this.value);">
-							<option value=""></option>
-							<option value="basica">Básica</option>
-							<option value="palabra">Palabra clave</option>
-						</select><br>
-						<div id="oculto">
-						<label for="palCla">Palabra clave</label>
-						<input type="text" name="palCla" id="palCla" class="form-control" value="" pattern="^[a-zA-Z0-9\s]{5,20}" title="" placeholder="minimo 5 letras o numeros" maxlength="20"><br>
-						<label for="conPal">Confirmar</label>
-						<input type="text" name="conPal" id="conPal" class="form-control" value="" pattern="^[a-zA-Z0-9\s]{5,20}" title="" disabled placeholder="minimo 5 letras o numeros" maxlength="20"><br>	
-						</div>
-						<label for="email">eMail</label>
-						<input type="email" name="email" id="email" class="form-control" value="" required="required" title=""><br>
-						<label for="mensaje">Mensaje</label>
-						<textarea name="mensaje" id="mensaje" cols="40" rows="5" class="form-control" required="required" maxlength="250"></textarea>
+			<div class="panel panel-default">
+				<!-- Default panel contents -->
+				<div class="panel-heading">Panel heading</div>
+					<div class="panel-body">
+						<p>Text goes here...</p>
 					</div>
-					<input type="submit" name="enviar" value="Enviar" class="btn btn-primary pull-right"><br><br>
-				</form>
+			
+					<!-- Table -->
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Heading 1</th>
+							</tr>
+							<tr>
+								<th>Heading 2</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Content 1</td>
+							</tr>
+							<tr>
+								<td>Content 2</td>
+							</tr>
+						</tbody>
+					</table>
 			</div>
 		</div>		
 	</body>

@@ -1,4 +1,7 @@
 $(document).ready(function() {
+     $('#palCla').keypress(function() {
+          $('#conPal').removeAttr('disabled');
+     });
      $('#conPal').focusout(function() {
           var a = $('#conPal').val();
           var b = $('#palCla').val();
@@ -13,16 +16,17 @@ $(document).ready(function() {
 function envRapOp(op){
      	if (op=="palabra") {
      		$('#oculto').css('display', 'block');
-               $('#palCla').focus();
+               $('#palCla').focus().attr('required', 'required');
+               $('#conPal').attr('required', 'required');
      	}
      	if (op=="basica") {
      		$('#oculto').css('display', 'none');
-               $('#conPal').val("");
-               $('#palCla').val("");
+               $('#conPal').val("").removeAttr('required');
+               $('#palCla').val("").removeAttr('required');
      	}
      	if (op=="") {
      		$('#oculto').css('display', 'none');
-               $('#conPal').val("");
-               $('#palCla').val("");
+               $('#conPal').val("").removeAttr('required');
+               $('#palCla').val("").removeAttr('required');
      	}
      }
