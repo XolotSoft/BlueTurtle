@@ -4,17 +4,15 @@
 	$cipher  = new Crypt_AES(CRYPT_AES_MODE_ECB);
 	$tipo    = $_POST['tipo'];
 	$para    = $_POST['email'];
-	$asunto  = "BlueTurtle";
-	$mensaje = base64_encode($cipher->encrypt($_POST['mensaje']));
-	$mensaje = wordwrap($mensaje, 70, "\r\n");
-	$headers = "From: "."\r\n";
+	$asunto  = "BlueTurtle".$tipo."usuario";
 
-	if ($tipo == 'palabra'){
+	if ($tipo == 'passwd'){
 		if ($_POST['palCla'] == $_POST['conPal']){
 			$cipher->setPassword($_POST['palCla']);
-			@mail($para,$asunto,$mensaje,$headers);
+			$mensaje = base64_encode($cipher->encrypt($_POST['mensaje']));
+			$mensaje = wordwrap($mensaje, 70, "\r\n");
+			@mail($para,$asunto,$mensaje);
 			header('Location:../EnvioRapido.php');
-			
 		}
 		else{
 			header('Location:../../index.php');
@@ -24,7 +22,9 @@
 	if ($tipo == 'basica')
 	{	
 		$cipher->setPassword('whatever');
-		@mail($para,$asunto,$mensaje,$headers);
+		$mensaje = base64_encode($cipher->encrypt($_POST['mensaje']));
+		$mensaje = wordwrap($mensaje, 70, "\r\n");
+		@mail($para,$asunto,$mensaje);
 		header('Location:../EnvioRapido.php');
 	}
 

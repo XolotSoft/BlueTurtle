@@ -14,7 +14,7 @@ $(document).ready(function() {
 });
 
 function envRapOp(op){
-     	if (op=="palabra") {
+     	if (op=="passwd") {
      		$('#oculto').css('display', 'block');
                $('#palCla').focus().attr('required', 'required');
                $('#conPal').attr('required', 'required');

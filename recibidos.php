@@ -1,3 +1,10 @@
+<?php 
+	$hostname = '{mx1.hostinger.mx:143/imap}INBOX';
+	$username = 'usuariouno@blueturtle.zz.mu';
+	$password = '123456';
+	$inbox = imap_open($hostname,$username,$password) or die('Cannot connect: ' . imap_last_error());
+	$emails = imap_search($inbox,'SUBJECT "BlueTurtle"');
+?>
 <!DOCTYPE html>
 <html lang="es-MX">
 	<head>
@@ -24,7 +31,6 @@
 	<body>
 		<div class="container">
 			<nav class="navbar navbar-default" role="navigation">
-				<!-- Brand and toggle get grouped for better mobile display -->
 				<div class="navbar-header">
 					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
 						<span class="sr-only">Toggle navigation</span>
@@ -34,11 +40,10 @@
 					</button>
 					<a class="navbar-brand" href="#">BlueTurtle</a>
 				</div>
-				<!-- Collect the nav links, forms, and other content for toggling -->
 				<div class="collapse navbar-collapse navbar-ex1-collapse">
 					<ul class="nav navbar-nav">
-						<li class="active"><a href="EnvioRapido.php">Salida</a></li>
-						<li><a href="recibidos.php">Entrada</a></li>
+						<li><a href="EnvioRapido.php">Salida</a></li>
+						<li class="active"><a href="recibidos.php">Entrada</a></li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
 						<li><a href="#">Perfil</a></li>
@@ -52,31 +57,42 @@
 							</ul>
 						</li>
 					</ul>
-				</div><!-- /.navbar-collapse -->
+				</div>
 			</nav>
-			<div class="col-xs-12 col-sm-6 col-sm-offset-3 col-md-6 col-lg-6">
-				<form action="php/enviar.php" method="POST" role="form">
-					<legend>Envio Rápido</legend>
-					<div class="form-group">
-						<label for="tipo">Seguridad</label>
-						<select name="tipo" id="envRapSeg" class="form-control" required="required" onchange="envRapOp(this.value);">
-							<option value=""></option>
-							<option value="basica">Básica</option>
-							<option value="passwd">Palabra clave</option>
-						</select><br>
-						<div id="oculto">
-							<label for="palCla">Palabra clave</label>
-							<input type="password" name="palCla" id="palCla" class="form-control" value="" pattern="^[a-zA-Z0-9\s]{5,20}" title="" placeholder="minimo 5 letras o numeros" maxlength="20"><br>
-							<label for="conPal">Confirmar</label>
-							<input type="password" name="conPal" id="conPal" class="form-control" value="" pattern="^[a-zA-Z0-9\s]{5,20}" title="" disabled placeholder="minimo 5 letras o numeros" maxlength="20"><br>	
-						</div>
-						<label for="email">eMail</label>
-						<input type="email" name="email" id="email" class="form-control" value="" required="required" title=""><br>
-						<label for="mensaje">Mensaje</label>
-						<textarea name="mensaje" id="mensaje" cols="40" rows="5" class="form-control" required="required" maxlength="250"></textarea>
-					</div>
-					<input type="submit" name="enviar" value="Enviar" class="btn btn-primary pull-right"><br><br>
-				</form>
+			<div class="panel panel-default">
+				<div class="panel-heading">Mensajes Recibidos</div>
+				<table class="table">
+					<thead>
+						<tr>
+							<th></th>
+							<th>Usuario</th>
+							<th>Tipo</th>
+							<th>Fecha</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php
+							if($emails) {
+								rsort($emails);
+								$i=1;
+								foreach($emails as $email_number) {
+									$overview = imap_fetch_overview($inbox,$email_number,0);
+									$usuario = substr($overview[0]->subject, 16);
+									$tipo = substr($overview[0]->subject, 10,6);
+									$fecha = date("d/m/Y H:i",strtotime($overview[0]->date));
+									echo '<tr>';
+									echo '<td>'.$i.'</td>';
+									echo '<td><a href="mensaje.php?no='.$overview[0]->msgno.'">'.$usuario.'</a></td>';
+									echo '<td>'.$tipo.'</td>';
+									echo '<td>'.$fecha.'</td>';
+									echo '</tr>';
+									$i++;
+								}
+							} 
+							imap_close($inbox);
+						?>	
+					</tbody>
+				</table>
 			</div>
 		</div>		
 	</body>
