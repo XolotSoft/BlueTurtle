@@ -1,6 +1,9 @@
 <?php 
 	session_start();
 	session_destroy();
+	$var1="lower";
+	$var2="merion";
+	$clave="blackmamba";
 ?>
 <!DOCTYPE html>
 <html lang="es-MX">
@@ -36,6 +39,9 @@
 						<input type="text"  name="user" id="user" class="form-control" required="required" title="Escribe tu nombre de usuario"><br>
 						<label for="pass">Contraseña</label>
 						<input type="password" name="pass" id="pass" class="form-control" required="required" title="Escribe tu contraseña">
+						<input name="var1" type="hidden" value="<?php echo $var1 ?>">
+						<input name="var2" type="hidden"  value="<?php echo $var2 ?>" >
+						<input name="token" type="hidden" value="<?php echo md5($var2.$var1.$_SERVER['HTTP_HOST'].$clave) ?>" />
 					</div>
 					<button type="submit" class="btn btn-primary pull-right">Entrar</button>
 				</form>

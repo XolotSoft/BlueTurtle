@@ -4,12 +4,13 @@
     	$menu1=$_SESSION['username'];
         include('Crypt/AES.php');
 		$cipher = new Crypt_AES(CRYPT_AES_MODE_ECB);
-		$cipher->setPassword('whatever');
+		$cipher->setPassword($_POST['pass']);
+		$menu1    = $_SESSION['username'];
 		$hostname = '{mx1.hostinger.mx:143/imap}INBOX';
-		$username = 'usuariouno@blueturtle.zz.mu';
-		$password = '123456';
-		$inbox = imap_open($hostname,$username,$password) or die('Cannot connect: ' . imap_last_error());
-		$emails = imap_search($inbox,'SUBJECT "BlueTurtle"');
+		$username = $_SESSION['email'];
+		$password = $_SESSION['pwemail'];
+		$inbox    = imap_open($hostname,$username,$password);
+		$emails   = imap_search($inbox,'SUBJECT "BlueTurtle"');
     }
     else {
         header("Location:index.php");
@@ -57,14 +58,11 @@
 						<li class="active"><a href="recibidos.php">Entrada</a></li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
-						<li><a href="#">Perfil</a></li>
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo $menu1 ?> <b class="caret"></b></a>
 							<ul class="dropdown-menu">
-								<li><a href="#">Action</a></li>
-								<li><a href="#">Another action</a></li>
-								<li><a href="#">Amigos</a></li>
 								<li><a href="index.php">Salir</a></li>
+								<li><a href="#">Perfil</a></li>
 							</ul>
 						</li>
 					</ul>
@@ -72,11 +70,11 @@
 			</nav>
 			<div class="panel panel-default">
 				  <div class="panel-heading">
-						<h3 class="panel-title">Panel title</h3>
+						<h3 class="panel-title">Mensaje Decifrado por Contraseña</h3>
 				  </div>
 				  <div class="panel-body">
 						<?php
-							$no = $_GET['no'];
+							$no = $_POST['no'];
 							if($emails) {
 							    rsort($emails);
 								$message = imap_fetchbody($inbox,$no,1);
