@@ -1,9 +1,17 @@
 <?php 
-	$hostname = '{mx1.hostinger.mx:143/imap}INBOX';
-	$username = 'usuariouno@blueturtle.zz.mu';
-	$password = '123456';
-	$inbox = imap_open($hostname,$username,$password) or die('Cannot connect: ' . imap_last_error());
-	$emails = imap_search($inbox,'SUBJECT "BlueTurtle"');
+	session_start();
+    if ($_SESSION["autentificado"]) {
+    	$menu1=$_SESSION['username'];
+    	$hostname = '{mx1.hostinger.mx:143/imap}INBOX';
+		$username = 'usuariouno@blueturtle.zz.mu';
+		$password = '123456';
+		$inbox = imap_open($hostname,$username,$password) or die('Cannot connect: ' . imap_last_error());
+		$emails = imap_search($inbox,'SUBJECT "BlueTurtle"');
+    }
+    else {
+        header("Location:index.php");
+    }
+	
 ?>
 <!DOCTYPE html>
 <html lang="es-MX">
@@ -48,7 +56,7 @@
 					<ul class="nav navbar-nav navbar-right">
 						<li><a href="#">Perfil</a></li>
 						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Opciones <b class="caret"></b></a>
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo $menu1 ?> <b class="caret"></b></a>
 							<ul class="dropdown-menu">
 								<li><a href="#">Action</a></li>
 								<li><a href="#">Another action</a></li>
@@ -82,7 +90,7 @@
 									$fecha = date("d/m/Y H:i",strtotime($overview[0]->date));
 									echo '<tr>';
 									echo '<td>'.$i.'</td>';
-									echo '<td><a href="mensaje.php?no='.$overview[0]->msgno.'">'.$usuario.'</a></td>';
+									echo '<td><a href="php/tipoCifrado.php?no='.$overview[0]->msgno.'&tipo='.$tipo.'">'.$usuario.'</a></td>';
 									echo '<td>'.$tipo.'</td>';
 									echo '<td>'.$fecha.'</td>';
 									echo '</tr>';

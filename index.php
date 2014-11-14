@@ -29,7 +29,7 @@
 			<div class="page-header">
 			  <h1>BlueTurtle<small> mensajeria</small></h1>
 			</div>
-				<form action="EnvioRapido.php" method="POST" role="form">
+				<form action="php/login.php" method="POST" role="form">
 					<legend>Inicia Sesión</legend>
 					<div class="form-group">
 						<label for="user">Usuario</label>
